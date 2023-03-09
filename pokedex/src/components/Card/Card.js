@@ -7,12 +7,14 @@ import {
   Text,
   Stack,
   Button,
-  Link,
   Badge,
-  useColorModeValue,
-  Select,
+  Image,
+  Img
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getPoketypes } from "../../utils/ReturnPoketypes";
+import { goToDetails } from "../../routes/coordinator";
 
 export default function Card(props) {
   const { name } = props;
@@ -166,30 +168,53 @@ export default function Card(props) {
     }
   };
 
-  // console.log(pokemon)
+  // Ir para os detalhes
+  const navigate = useNavigate()
+
+
+
+  // Capturar pokemon
+const [captured, setCaptured] = useState(false)
+
+// Diferenciar types
+// const handlePokeType = (type) => {
+// switch (type) {
+//   case value:
+    
+//     break;
+
+//   default:
+//     break;
+// }
+// }
+
 
   return (
     <Center py={6}>
       {pokemon !== undefined ? (
         <Box
-          maxW={"320px"}
-          w={"full"}
+          w={"20rem"}
+          h={"20rem"}
+          // w={"full"}
           bg="white"
           boxShadow={"2xl"}
           rounded={"lg"}
           p={6}
           textAlign={"center"}
+          pos={"relative"}
+          mt={"11rem"}
+          pt={"8rem"}
         >
-          <Avatar
-            size={"xl"}
+          <Image
+            boxSize='l0px'
             src={pokemon.sprites.other["official-artwork"].front_default}
             alt={"Avatar Alt"}
             mb={4}
-            pos={"relative"}
+            pos={"absolute"}
+            bottom={"11rem"}
+            right={0}
           />
-          <Heading fontSize={"2xl"} fontFamily={"body"}>
-            {name}
-          </Heading>
+          <Heading textTransform='capitalize' fontSize={"2xl"} fontFamily={"body"}>{name}</Heading>
           <Text fontWeight={600} color={"gray.500"} mb={4}>
             #{pokemon.id}
           </Text>
@@ -198,20 +223,15 @@ export default function Card(props) {
           </Text>
 
           <Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
-            <Badge px={2} py={1} bg="gray.50" fontWeight={"400"}>
-              {pokemon.types[0].type.name}
-            </Badge>
-            {pokemon.types[1] ? (
-              <Badge px={2} py={1} bg="gray.50" fontWeight={"400"}>
-                {pokemon.types[1] ? pokemon.types[1].type.name : ""}
-              </Badge>
-            ) : (
-              ""
-            )}
+          {pokemon.types.map((type) => {
+            return <Img key={type.type.name} src={getPoketypes(type.type.name)} alt={type.type.name}/>
+          })}
           </Stack>
 
           <Stack mt={8} direction={"row"} spacing={4}>
             <Button
+              onClick={()=>goToDetails(navigate ,pokemon.name)}
+
               flex={1}
               fontSize={"sm"}
               rounded={"full"}
@@ -219,15 +239,36 @@ export default function Card(props) {
                 bg: "gray.200",
               }}
             >
-              {/* ////////////////////////////////////// */}
               Details
-              {/* ////////////////////////////////////// */}
             </Button>
-            <Button
+            {captured? (
+              <Button
+              flex={1}
+              fontSize={"sm"}
+              rounded={"full"}
+              bg={"green.400"}
+              
+              color={"white"}
+              boxShadow={
+                "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
+              }
+              _hover={{
+                bg: "green.400",
+              }}
+              _focus={{
+                bg: "green.400",
+              }}
+            >
+              Captured!
+            </Button>
+            ) : (
+              <Button
+              onClick={()=>setCaptured(!captured)}
               flex={1}
               fontSize={"sm"}
               rounded={"full"}
               bg={"blue.400"}
+              
               color={"white"}
               boxShadow={
                 "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
@@ -239,10 +280,9 @@ export default function Card(props) {
                 bg: "blue.500",
               }}
             >
-              {/* ////////////////////////////////////// */}
-              Add to Pokedéx
-              {/* ////////////////////////////////////// */}
+              Capture!
             </Button>
+            )}
           </Stack>
         </Box>
       ) : (

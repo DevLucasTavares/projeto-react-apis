@@ -1,8 +1,10 @@
-import { ChakraProvider, Select } from "@chakra-ui/react";
+import { ChakraProvider, Flex, Select } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Card from "../Card/Card";
-import { PokedexDisplay } from "./styled";
+import { Footer } from "../Footer/Footer";
+import { Header } from "../Header/Header";
+import { PokedexDisplay, SelectDisplay } from "./styled";
 
 export function Home() {
   //Estado para puxar lista de Pokemons da API
@@ -26,11 +28,15 @@ export function Home() {
   };
 
   return (
-    <ChakraProvider>
+    <Flex direction='column' flex='1'>
+      <Header/>
+      <SelectDisplay>
       <Select
         placeholder="Select pokedex"
         value={genSelect}
         onChange={(e) => setGenSelect(e.target.value)}
+        w='20rem'
+        bg='white'
       >
         <option value="Gen1">Kanto</option>
         <option value="Gen2">Johto</option>
@@ -42,6 +48,7 @@ export function Home() {
         <option value="Gen8">Galar</option>
         <option value="Gen9">Paldea</option>
       </Select>
+      </SelectDisplay>
       <PokedexDisplay>
       {pokeGen
         .filter((pokemon) => {
@@ -79,6 +86,7 @@ export function Home() {
           }
         })}
         </PokedexDisplay>
-    </ChakraProvider>
+        <Footer />
+    </Flex>
   );
 }
