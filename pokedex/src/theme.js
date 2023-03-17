@@ -1,10 +1,9 @@
 import { extendTheme } from "@chakra-ui/react"
 
 export default theme = extendTheme({
-colors:{
-    default: {
-        0:'',
-        1:'',
-    },
+colors:{},
+fonts: {
+    // poppins: "poppins",
+    inter: "inter"
 }
 })
