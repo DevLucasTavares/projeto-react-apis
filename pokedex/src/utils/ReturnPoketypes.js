@@ -56,6 +56,6 @@ export const getPoketypes = (type) => {
       case "water":
         return water;
       default:
-        return water;
+        return "error";
     }
   };

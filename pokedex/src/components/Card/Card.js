@@ -9,20 +9,24 @@ import {
   Button,
   Badge,
   Image,
-  Img
+  Img,
+  Fade,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getPoketypes } from "../../utils/ReturnPoketypes";
 import { goToDetails } from "../../routes/coordinator";
+import background from "../../assets/pokeballback.png";
+import useOverlayMessage from "../../utils/useOverlayMessage";
 
-export default function Card(props) {
-  const { name } = props;
-
+export default function Card({ name, myPokedex, setMyPokedex, showOverlay, setShowOverlay }) {
   // Estado com todos os detalhes do pokemon
   const [pokemon, setPokemon] = useState();
   // Estado para reload nos cards
   const [reloadCards, setReloadCards] = useState(true);
+
+  //Ver em qual rota estou
+  const location = useLocation();
 
   // Carregar cards
   useEffect(() => {
@@ -67,85 +71,85 @@ export default function Card(props) {
         pokeform = "normal";
         break;
       case "wormadam":
-        pokeform = "plant"
+        pokeform = "plant";
         break;
       case "giratina":
-        pokeform = "altered"
+        pokeform = "altered";
         break;
       case "shaymin":
-        pokeform = "land"
+        pokeform = "land";
         break;
       case "basculin":
-        pokeform = "red-striped"
+        pokeform = "red-striped";
         break;
       case "darmanitan":
-        pokeform = "standard"
+        pokeform = "standard";
         break;
       case "tornadus":
-        pokeform = "incarnate"
+        pokeform = "incarnate";
         break;
       case "thundurus":
-        pokeform = "incarnate"
+        pokeform = "incarnate";
         break;
       case "landorus":
-        pokeform = "incarnate"
+        pokeform = "incarnate";
         break;
       case "keldeo":
-        pokeform = "ordinary"
+        pokeform = "ordinary";
         break;
       case "meloetta":
-        pokeform = "aria"
+        pokeform = "aria";
         break;
       case "meowstic":
-        pokeform = "male"
+        pokeform = "male";
         break;
       case "aegislash":
-        pokeform = "shield"
+        pokeform = "shield";
         break;
       case "pumpkaboo":
-        pokeform = "average"
+        pokeform = "average";
         break;
       case "gourgeist":
-        pokeform = "average"
+        pokeform = "average";
         break;
       case "zygarde":
-        pokeform = "complete"
+        pokeform = "complete";
         break;
       case "oricorio":
-        pokeform = "baile"
+        pokeform = "baile";
         break;
       case "lycanroc":
-        pokeform = "midday"
+        pokeform = "midday";
         break;
       case "wishiwashi":
-        pokeform = "solo"
+        pokeform = "solo";
         break;
       case "minior":
-        pokeform = "red"
+        pokeform = "red";
         break;
       case "mimikyu":
-        pokeform = "disguised"
+        pokeform = "disguised";
         break;
       case "toxtricity":
-        pokeform = "amped"
+        pokeform = "amped";
         break;
       case "eiscue":
-        pokeform = "ice"
+        pokeform = "ice";
         break;
       case "indeedee":
-        pokeform = "female"
+        pokeform = "female";
         break;
       case "morpeko":
-        pokeform = "full-belly"
+        pokeform = "full-belly";
         break;
       case "urshifu":
-        pokeform = "single-strike"
+        pokeform = "single-strike";
         break;
       case "basculegion":
         pokeform = "male";
         break;
       case "enamorus":
-        pokeform = "incarnate"
+        pokeform = "incarnate";
         break;
       default:
         pokeform = "";
@@ -153,6 +157,9 @@ export default function Card(props) {
     }
   };
   pokeTransform(name);
+
+/////////////////////
+const { OverlayMessage, handleButtonClick } = useOverlayMessage()
 
   // Receber pokemon
   const buscarPokemon = async () => {
@@ -169,120 +176,248 @@ export default function Card(props) {
   };
 
   // Ir para os detalhes
-  const navigate = useNavigate()
-
-
+  const navigate = useNavigate();
 
   // Capturar pokemon
-const [captured, setCaptured] = useState(false)
+  const [captured, setCaptured] = useState(false);
 
-// Diferenciar types
-// const handlePokeType = (type) => {
-// switch (type) {
-//   case value:
-    
-//     break;
+  // Setar pokemon na pokedex
+  const handleAddToPokedex = (pokemon) => {
+    const alreadyCaptured = myPokedex.find((poke) => {
+      return poke.name === pokemon.name;
+    });
+    if (!alreadyCaptured) {
+      setMyPokedex([...myPokedex, pokemon]);
+    }
+    setCaptured(!captured);
+    setShowOverlay(true);
+    setTimeout(() => setShowOverlay(false), 2000);
+  };
 
-//   default:
-//     break;
-// }
-// }
+  // Remover Pokemon da Pokedex
+  const handleRemoveFromPokedex = () => {
+    const newPokedex = myPokedex.filter((poke) => poke.name !== pokemon.name);
+    setMyPokedex(newPokedex);
+    setShowOverlay(true);
+    setTimeout(() => setShowOverlay(false), 2000);
+  };
 
+  const handleVerifyPokedex = () => {
+    const alreadyCaptured = myPokedex.find((poke) => {
+      return poke.name === pokemon.name;
+    });
+    if (!alreadyCaptured) {
+      return (
+        <Button
+          onClick={() => handleAddToPokedex(pokemon)}
+          height="38px"
+          width="146px"
+          flex={1}
+          fontSize={"16px"}
+          rounded={"8px"}
+          bg={"white"}
+          color={"#474747"}
+          boxShadow={
+            "0px 1px 25px -5px rgb(255 255 255/ 48%), 0 10px 10px -5px rgb(255 255 255 / 43%)"
+          }
+          _hover={{
+            bg: "lightgray",
+          }}
+          _focus={{
+            bg: "lightgray",
+          }}
+        >
+          Capturar!
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+        height="38px"
+        width="146px"
+          flex={1}
+          fontSize={"16px"}
+          rounded={"8px"}
+          bg={"green.400"}
+          color={"white"}
+          boxShadow={
+            "0px 1px 25px -5px rgb(66 225 90 / 48%), 0 10px 10px -5px rgb(66 225 90 / 43%)"
+          }
+          _hover={{
+            bg: "green.400",
+          }}
+          _focus={{
+            bg: "green.400",
+          }}
+        >
+          Capturado!
+        </Button>
+      );
+    }
+  };
 
+  const addZero = (id) => {
+    if (id < 10) {
+      return "0";
+    } else if (id >= 10 && id < 100) {
+      return "";
+    }
+  };
+
+  const bgTypeColor = () => {
+    switch (pokemon.types[0].type.name) {
+      case "type":
+        return "#000";
+      case "poison":
+        return "#7e3880";
+      case "grass":
+        return "#729F92";
+      case "fire":
+        return "#EAAB7D";
+      case "flying":
+        return "#54ab74";
+      case "water":
+        return "#71C3FF";
+      case "bug":
+        return "#76A866";
+      case "normal":
+        return "#BF9762";
+      case "dark":
+        return "#312c36";
+      case "dragon":
+        return "#004170";
+      case "electric":
+        return "#c2af53";
+      case "fairy":
+        return "#b872ba";
+      case "fighting":
+        return "#851d3b";
+      case "ghost":
+        return "#323170";
+      case "ground":
+        return "#ad6f4b";
+      case "ice":
+        return "#93bec4";
+      case "psychic":
+        return "#ad4b60";
+      case "rock":
+        return "#bda362";
+      case "steel":
+        return "#727982";
+      default:
+        return "black";
+    }
+  };
+
+  /////////////////////////////////////////////////////////////////
   return (
     <Center py={6}>
       {pokemon !== undefined ? (
         <Box
-          w={"20rem"}
-          h={"20rem"}
-          // w={"full"}
-          bg="white"
+          w={"440px"}
+          h={"210px"}
+          bg={bgTypeColor()}
+          color={"white"}
           boxShadow={"2xl"}
           rounded={"lg"}
           p={6}
-          textAlign={"center"}
+          textAlign={"start"}
           pos={"relative"}
-          mt={"11rem"}
-          pt={"8rem"}
         >
+          {/* ---------- IMAGEM ---------- */}
           <Image
-            boxSize='l0px'
-            src={pokemon.sprites.other["official-artwork"].front_default}
-            alt={"Avatar Alt"}
-            mb={4}
+            src={background}
             pos={"absolute"}
-            bottom={"11rem"}
-            right={0}
+            w={"240.73px"}
+            right={"0"}
+            top={"0"}
           />
-          <Heading textTransform='capitalize' fontSize={"2xl"} fontFamily={"body"}>{name}</Heading>
-          <Text fontWeight={600} color={"gray.500"} mb={4}>
-            #{pokemon.id}
-          </Text>
-          <Text textAlign={"center"} color={("gray.700", "gray.400")} px={3}>
-            {/* Descrição */}
-          </Text>
+          <Image
+            boxSize={"193px"}
+            src={pokemon.sprites.other["official-artwork"].front_default}
+            alt={pokemon.name}
+            pos={"absolute"}
+            bottom={"70"}
+            left={"234px"}
+          />
 
-          <Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
-          {pokemon.types.map((type) => {
-            return <Img key={type.type.name} src={getPoketypes(type.type.name)} alt={type.type.name}/>
-          })}
+          {/* ---------- ID ---------- */}
+          <Text fontWeight={600}>
+            #{addZero(pokemon.id)}
+            {pokemon.id}
+          </Text>
+          {/* ---------- NOME ---------- */}
+          <Heading
+            textTransform="capitalize"
+            fontSize={"2xl"}
+            fontFamily={"body"}
+          >
+            {name}
+          </Heading>
+
+          {/* ---------- TIPOS ---------- */}
+          <Stack
+            align={"start"}
+            justify={"start"}
+            direction={"row"}
+            mt={"10px"}
+          >
+            {pokemon.types.map((type) => {
+              return (
+                <Img
+                  key={type.type.name}
+                  src={getPoketypes(type.type.name)}
+                  alt={type.type.name}
+                />
+              );
+            })}
           </Stack>
 
-          <Stack mt={8} direction={"row"} spacing={4}>
+          <Stack mt={8} direction={"row"} spacing={"175px"}>
+            {/* ---------- DETALHES ---------- */}
             <Button
-              onClick={()=>goToDetails(navigate ,pokemon.name)}
-
+              onClick={() => goToDetails(navigate, pokemon.name)}
+              variant="link"
+              as="u"
               flex={1}
               fontSize={"sm"}
               rounded={"full"}
+              colorScheme="black"
               _focus={{
                 bg: "gray.200",
               }}
             >
-              Details
+              Detalhes
             </Button>
-            {captured? (
+
+            {/* ---------- CAPTURE ---------- */}
+            {location.pathname === "/pokedex" ? (
               <Button
-              flex={1}
-              fontSize={"sm"}
-              rounded={"full"}
-              bg={"green.400"}
-              
-              color={"white"}
-              boxShadow={
-                "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-              }
-              _hover={{
-                bg: "green.400",
-              }}
-              _focus={{
-                bg: "green.400",
-              }}
-            >
-              Captured!
-            </Button>
+                onClick={() => handleRemoveFromPokedex()}
+                height="38px"
+                width="146px"
+                fontSize="sm"
+                rounded="8px"
+                bg="#FF6262"
+                color="white"
+                boxShadow={
+                  "0px 1px 25px -5px rgb(255 98 98 / 48%), 0 10px 10px -5px rgb(255 98 98 / 43%)"
+                }
+                _hover={{
+                  bg: "red.500",
+                }}
+                _focus={{
+                  bg: "red.500",
+                }}
+              >
+                Excluir
+              </Button>
+            ) : location.pathname === "/" ? (
+              handleVerifyPokedex()
             ) : (
-              <Button
-              onClick={()=>setCaptured(!captured)}
-              flex={1}
-              fontSize={"sm"}
-              rounded={"full"}
-              bg={"blue.400"}
-              
-              color={"white"}
-              boxShadow={
-                "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-              }
-              _hover={{
-                bg: "blue.500",
-              }}
-              _focus={{
-                bg: "blue.500",
-              }}
-            >
-              Capture!
-            </Button>
+              console.log("botao padrao")
             )}
+            <OverlayMessage />
           </Stack>
         </Box>
       ) : (

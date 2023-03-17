@@ -8,5 +8,5 @@ export const goToHome = (navigate) => {
   };
 
 export const goToDetails = (navigate, pokemon) => {
-    navigate(`/login/${pokemon}`)
+    navigate(`/details/${pokemon}`)
   }
