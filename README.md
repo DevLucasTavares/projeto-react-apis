@@ -1,63 +1,85 @@
-# **Projeto React e API's**
-O Projeto React e APIs é um site de pokémons que possui três páginas: Home, Pokedex e Detalhes. O projeto está subdivido em temas de acordo com os conteúdos que estudado durante o Módulo 2 - Frontend.
+# Projeto Pokédex
+![PokeAPI](./pokedex/src/assets/expo/PokeAPI.png)
+Uma Pokédex completa que renderiza todos os pokémons da [PokeAPI](https://pokeapi.co/)
 
-Este projeto terá como fonte de dados para a sua criação a [Poke Api](https://pokeapi.co/ "Poke Api"), uma Api pública, muito usada para aplicações focadas em aprendizado de programação e também usada em cases de processos seletivos.
+## índice
+- <a href="#funcionalidades-do-projeto">Funcionalidades do Projeto</a>
+- <a href="#layout">Layout</a>
+- <a href="#demonstração">Demonstração</a>
+- <a href="#como-rodar-este-projeto">Como rodar este projeto?</a>
+- <a href="#tecnologias-utilizadas">Tecnologias Utilizadas</a>
+- <a href="#pessoas-autoras">Pessoas Autoras</a>
+- <a href="#próximos-passos">Próximos Passos</a>
 
-Os conteúdos principais  a serem estudados são:
+## Funcionalidades do Projeto
 
-- Integração de APIs
-- React Router
-- Design Systems
-- Estado Global
+- [x] Home com diversas Pokédexes das respectivas gerações
+- [x] Pokédex pessoal totalmente interativa, podendo adicionar e remover qualquer pokémon
+- [x] Visualização de detalhes de mais de 1.000 pokémons
 
-## **Enunciado**
-É objetivo deste projeto criar um site com três páginas usando a Poke Api com as seguintes ferramentas:
+## Layout
+### Home
+Cards interativos personalizados de acordo com o tipo primário do pokémon
+![PokeCards](./pokedex/src/assets/expo/PokeCards.png)
 
-- React
-- React Router
-- Styled-components
-- React Context
-- Axios
+Lista selecionável com todas as regiões do universo Pokémon e seus respectivos pokémons, contendo mais de 1.000 pokémons
+![GenSelector](./pokedex/src/assets/expo/GenSelector.png)
 
-### **Requisitos**
-- **Gerais:**
-	- [ ] O site deve ter 3 páginas: Home, Pokedex e Detalhes;
-	- [ ] Projeto deve seguir o [design](https://www.figma.com/file/KseyA2Ofghiek2Cy3ZaDre/Poked%C3%A9x?t=AEi3zEmWmarf1FbP-0 "design") proposto;
-	- [ ] O fluxo de trocas de páginas devem ser semelhante ao [fluxograma](https://www.figma.com/proto/KseyA2Ofghiek2Cy3ZaDre/Poked%C3%A9x?page-id=0%3A1&node-id=2%3A2&viewport=358%2C197%2C0.27&scaling=scale-down&starting-point-node-id=2%3A2 "fluxograma");
-- **Página Home:**
-	- [ ]  Mostrar uma lista de Pokemons, contendo ao menos 20 Pokemons;
-	- [ ] Cada Pokemon será representado por um Card;
-	- [ ] Em cada card de Pokemon tem um botão para adicioná-lo à Pokedex e um outro botão para acessar os detalhes do Pokemon;
-	- [ ] Header dessa página terá um botão para acessar a página da Pokedex
-- **Página Pokédex**
-	- [ ] Renderizar a lista de pokémons adicionados na pokedex;
-	- [ ] Em cada card de Pokemon deve ter um botão para removê-lo da Pokedex e um outro botão para acessar os detalhes do Pokemon.
-	- [ ] Header deve ter um botão para voltar para a Home
-	- [ ] Não deve ser possível adicionar o mesmo Pokemon duas vezes na Pokedex
-- **Página de Detalhes**
-	- [ ] Mostrar os detalhes do Pokemon selecionado, com informações descritas
-	- [ ] Header deve ter um botão para adicionar ou remover da Pokedex e outro para voltar a página home.
-- [ ] [Criar um readme](https://www.youtube.com/watch?v=1QKwP0SJK-c "Crie um readme") para o projeto;
+### Pokédex Pessoal
+Renderização da lista de pokémons escolhidos pelo usuário
+![PersonalPokedex](./pokedex/src/assets/expo/PersonalPokedex.png)
 
+Caso o usuário não tenha selecionado nenhum pokémon, a página não fica vazia.
+Nesse caso é carregado uma mensagem para sinalizar o usuário
+![PokedexVazia](./pokedex/src/assets/expo/PokedexVazia.png)
 
-### Instruções de entrega
+### Detalhes
+Visualização dos detalhes do pokémon, sendo totalmente personalizado, com cores de fundo respectivas do tipo do pokémon.
+Contém também barras de status que aumentam e diminuem de acordo com o poder do pokémon e uma lista com algumas das habilidades disponíveis para aquele pokémon, sendo essas sempre diferentes, mostrando ao usuário novas informações caso acesse novamente
+![PokeDetails](./pokedex/src/assets/expo/PokeDetails.png)
 
-- Faça o fork desse repositório e realize o clone da sua cópia `seu-nome-de-usuario/projeto-intro-web`.
-   <details>
-   <summary>Quer uma dica?</summary>
-   <img src="https://firebasestorage.googleapis.com/v0/b/assets-conteudo.appspot.com/o/gerais%2Ffork.png?alt=media&token=7030e997-246a-41fe-a75f-2a2ced61e54d" alt="Como adicionar o projeto no repositório"/>
-   </details>
-- Crie os arquivos do projeto dentro deste repo;
-- Execute o fluxo de entrega do git. **Lembre-se de abrir os PRs para seu próprio repositório.**
-- Para isso, você precisará fazer o projeto utilizando **branches**. Evite fazer as alterações direto na branch ```main```
-    <details>
-       <summary>Dúvidas sobre o Git & Github?</summary>
-       <p>Adiciomos um vídeo explicando o <strong>processo de entrega</strong> [do fork ao pull request] no Material Assincrono da Aula de <a href="https://estudante.labenu.com.br/conteudos/tecnico/mod1/Git%20e%20Github">Git e Github</a>. Esse vídeo também exemplifica situações que podem acontecer durante o fluxo de utilização do Git.</p>
-    </details>
-- Faça o deploy do projeto. Pode ser ultilizado o [surge](https://labenu.notion.site/Deploy-de-front-React-com-Surge-f902a03ec1d247dc9af9aee5a1469d96), Github pages ou outra ferramenta que faça a disponibilização do seu site para acesso público;
-- Adicionar o link do deploy no readme do seu projeto/repositório:
+### Página de Erro
+Caso o usuário tenha algum problema na navegação de páginas, foi criado uma página de erro na qual ele pode retornar para a Home ao clicar
+![ErrorPage](./pokedex/src/assets/expo/ErrorPage.png)
 
+## Demonstração
+Link para acessar o site:
+[Deploy Pokédex](https://pokedex-lucastavaresdev.vercel.app/)
 
+## Como rodar este projeto?
 
+```bash
+# Clone este repositório
+$ git clone (link-do-repo)
 
-- Entregue o projeto no [Formulário de entrega](https://docs.google.com/forms/d/e/1FAIpQLSfGGRaglpzWpdREBBfq3eUCMXkRXuiS61Zfyy0L_Ce0uNIXTA/viewform).
+# Acesse a pasta do projeto no seu terminal
+$ cd pokedex
+
+# Instale as dependências
+$ npm install
+
+# Execute a aplicação
+$ npm run start
+
+# A aplicação será iniciada na porta 3000, acesse pelo navegador: http://localhost:3000
+```
+
+## Tecnologias Utilizadas
+1. [React](https://pt-br.reactjs.org/)
+2. [Styled Components](https://styled-components.com/)
+3. [React Router](https://reactrouter.com/en/main)
+4. [Axios](https://axios-http.com/ptbr/docs/intro)
+5. [Chakra](https://chakra-ui.com/)
+
+## Pessoas Autoras
+<img style="500px" src="./pokedex/src/assets/expo/LucasTavares.jpg" alt="Lucas Tavares">
+
+[LinkedIN](https://www.linkedin.com/in/-lucas-tavares/)
+
+## Próximos Passos
+- [] Tornar o layout responsivo para dispositivos móveis
+- [] Salvar Pokédex pessoal no LocalStorage
+- [] Implementar sistema de login
+- [] Exibir, nos Detalhes, linha evolutiva do pokémon e também transformações, como Mega Evoluções, Gigantamax e Terastallize
+- [] Exibir, nos Detalhes, fraquezas e vantagens do pokémon de acordo com o tipo dele
+- [] Implementar pesquisa de pokémons por nome, tipo e raridade
